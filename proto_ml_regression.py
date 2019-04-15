@@ -12,6 +12,7 @@ import math
 
 features = []
 classLabels = []
+impurities = []
 
 warnings.simplefilter("ignore")
 
@@ -54,8 +55,10 @@ def dataFileToArray(file):
           data[row][item] = '0'
   data = [i for i in data[1:]]
   newdata = []
+  global impurities
   for row in data:
     newdata.append([float(j) for j in row[1:]])
+    impurities.append(row[0])
 
   global features, classLabels
   data = np.array(newdata)
@@ -74,7 +77,8 @@ def main():
   print(findOptimalComponents())
   print("10 fold scores for linear regression\n", cvs(LR(fit_intercept = False), features, classLabels, cv = 3).tolist(),"\n __________________________________\n")
   reg = LR(fit_intercept = True).fit(features, classLabels)
-  print(reg.coef_)
+  for feature, coef in zip(impurities, reg.coef_):
+    print(feature, coef)
 
 if __name__ == "__main__":
     main()
