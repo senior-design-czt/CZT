@@ -92,9 +92,8 @@
                   <p>This page shows any existing data sets. Click any data set to view it's contents. To upload a new data set, click the import button to select a new data set from your local file system.</p>
                   <p><a id="importDataButton" class="btn btn-primary btn-lg" href="" role="button">Import new data set &raquo;</a></p>
                   
-                  <form action = "http://localhost:5000/upload" method = "POST" enctype="multipart/form-data">
+                  <form id="fileInputForm" action = "http://localhost:5000/upload" method = "POST" enctype="multipart/form-data">
                     <input id="fileInput" name="file" type="file" style="display: none;"/>  
-                    <input type="submit"/>
                   </form>
                 </div>
               </div>
@@ -224,6 +223,10 @@
             $("#importDataButton").click(function (e) {
               $("#fileInput").trigger('click');
               e.preventDefault();
+            });
+
+            $("#fileInput").change(function () {
+              $("#fileInputForm").submit();
             });
 
             $("#getStartedButton").click(function (e) {

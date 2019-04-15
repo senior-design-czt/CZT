@@ -3,8 +3,10 @@ import os
 
 app = Flask(__name__)
 
-UPLOAD_DIR = './data'
-app.config['UPLOAD_DIRECTORY'] = UPLOAD_DIR
+UPLOAD_DIR = os.getcwd() + '/data'
+print (UPLOAD_DIR)
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_DIR
 
 
 @app.route('/')
@@ -17,8 +19,9 @@ def index():
 @app.route('/upload', methods=['POST'])
 def upload_data():
     f = request.files['file']
-    f.save(f.filename)
+    f.save(os.path.join(UPLOAD_DIR, f.filename))
     return 'saved'
+
 
 @app.route('/data')
 @app.route('/data/<filename>')
