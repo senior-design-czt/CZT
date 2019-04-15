@@ -1,7 +1,10 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 import os
 
 app = Flask(__name__)
+
+UPLOAD_DIR = './data'
+app.config['UPLOAD_DIRECTORY'] = UPLOAD_DIR
 
 
 @app.route('/')
@@ -14,6 +17,20 @@ def index():
 @app.route('/upload', methods=['POST'])
 def upload_data():
     f = request.files['file']
+    f.save(f.filename)
+    return 'saved'
+
+@app.route('/data')
+@app.route('/data/<filename>')
+def get_file(filename=None):
+    if filename is None:
+        return jsonify(os.listdir(UPLOAD_DIR))
+    else:
+        filename = os.path.join(UPLOAD_DIR, filename)
+        if not os.path.isfile(filename):
+            return 'File does not exist'
+        with open(filename, 'r') as f:
+            return f.read()
 
 
 if __name__ == '__main__':
