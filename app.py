@@ -4,8 +4,6 @@ import os
 app = Flask(__name__)
 
 UPLOAD_DIR = os.getcwd() + '/data'
-print (UPLOAD_DIR)
-
 app.config['UPLOAD_FOLDER'] = UPLOAD_DIR
 
 
