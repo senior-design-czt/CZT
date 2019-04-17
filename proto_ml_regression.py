@@ -9,10 +9,13 @@ from sklearn.model_selection import LeaveOneOut
 from sklearn.model_selection import train_test_split
 import numpy as np
 import math
+import pickle
 
 features = []
 classLabels = []
 impurities = []
+datafile = ''
+outfile = ''
 
 warnings.simplefilter("ignore")
 
@@ -36,18 +39,8 @@ def findOptimalComponents():
 def avg(lst): 
     return sum(lst) / len(lst) 
 
-def getData(file):
-  global classLabels, features
-  data = np.loadtxt(fname = file, delimiter = ';')
-  features = data[1:,:]
-  classLabels = data[0,:]
-  features = features.transpose()
-  classLabels = classLabels.transpose()
-  return features.tolist(), classLabels.tolist()
-
-def dataFileToArray(file):
-  with open(file, 'rU') as f:  
-    reader = csv.reader(f)
+def dataFileToArray():
+  with open(datafile, 'r') as f:  
     data = list(list(rec) for rec in csv.reader(f, delimiter=';')) #reads csv into a list of lists
     for row in range(len(data)):
       for item in range(len(data[row])):
@@ -68,17 +61,26 @@ def dataFileToArray(file):
   features = features.transpose()
   classLabels = classLabels.transpose()
 
+def LRToOutFile():
+  with open(outfile, 'w') as file:
+    file.write("3 fold scores for linear regression\n______________________________\n")
+    for score in cvs(LR(fit_intercept = False), features, classLabels, cv = 3).tolist():
+      file.write(" " + str(score))
+    file.write("\n\n _____Coefficients_____\n")
+    reg = LR(fit_intercept = True).fit(features, classLabels)
+    for feature, coef in zip(impurities, reg.coef_):
+      file.write(feature + ": " + str(coef) + "\n")
 
-
-def main():
-  file_name = sys.argv[1]
-  dataFileToArray(file_name)
-                  
-  print(findOptimalComponents())
-  print("10 fold scores for linear regression\n", cvs(LR(fit_intercept = False), features, classLabels, cv = 3).tolist(),"\n __________________________________\n")
+def RunRegressionAnalysis(dfile, outputfile):
+  global datafile, outfile
+  datafile = dfile
+  outfile = outputfile
+  dataFileToArray()
+  LRToOutFile()
+  print("3 fold scores for linear regression\n", cvs(LR(fit_intercept = False), features, classLabels, cv = 3).tolist(),"\n __________________________________\n")
   reg = LR(fit_intercept = True).fit(features, classLabels)
   for feature, coef in zip(impurities, reg.coef_):
     print(feature, coef)
 
 if __name__ == "__main__":
-    main()
+  RunRegressionAnalysis(sys.argv[1], sys.argv[2])
