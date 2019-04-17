@@ -1,0 +1,79 @@
+{# This is the base skeleton layout for all pages on the site #}
+<!DOCTYPE html>
+<html>
+<head>
+    <!--base target="_top"> not sure if this is necessary -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+    
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.1/examples/dashboard/">
+</head>
+<body>
+<!-- Start header bar -->
+<div class="container-fluid">
+    <nav class="navbar navbar-dark bg-dark flex-md-nowrap p-0 shadow">
+        <a class="navbar-brand col-sm-3 col-md-2 mr-0" style="color: white;">WSU CZT Project</a>
+    </nav>    
+</div>
+<!-- End header bar -->
+
+<!-- Start sidebar content -->
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+        <div class="sidebar-sticky">
+            <ul class="nav flex-column">
+            <li class="nav-item">
+                <a id="homeLink" class="nav-link active" href={{ url_for('home') }}>
+                    <span data-feather="home"></span>
+                    Home
+                    <span class="sr-only">(current)</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a id="datasetsLink" class="nav-link" href={{ url_for('data') }}>
+                    <span data-feather="database"></span>
+                    Datasets
+                </a>
+            </li>
+            <li class="nav-item">
+                <a id="statusLink" class="nav-link" href={{ url_for('status') }}>
+                <span data-feather="activity"></span>
+                    Status
+                </a>
+            </li>
+            <li class="nav-item">
+                <a id="compareLink" class="nav-link" href={{ url_for('compare') }}>
+                <span data-feather="bar-chart-2"></span>
+                    Compare
+                </a>
+            </li>
+            <li class="nav-item">
+                <a id="layoutLink" class="nav-link" href={{ url_for('layout') }}>
+                <span data-feather="grid"></span>
+                    Layout
+                </a>
+            </li>
+            </ul>            
+        </div>
+        <!-- End sidebar content -->
+        </nav>
+
+        <!-- Start main content -->
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+            {% block main %}
+            {% endblock %}
+        </main>
+        <!-- End main content -->
+
+    </div>
+    </div>
+</body>
+</html>

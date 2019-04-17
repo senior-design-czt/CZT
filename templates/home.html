@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block main %}
+<div id="homePage" class="jumbotron">
+    <div class="container">
+        <h1 class="display-3">Welcome!</h1>
+        <p>Thank you for using our web application for CZT research using machine learning. Use the menu to the left to navigate between multiple views. If this is your first time using this application, click the button below to get started.</p>
+        <p><a id="getStartedButton" class="btn btn-primary btn-lg" href={{ url_for('data') }} role="button">Get started &raquo;</a></p>
+    </div>
+</div>
+{% endblock %}
