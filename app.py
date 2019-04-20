@@ -46,12 +46,17 @@ def upload():
     Requires a file input form named 'file' to read from.
     View https://www.tutorialspoint.com/flask/flask_file_uploading.htm for an example on how to use this.
     """
-    if not 'file' in request.files:
+    if 'file' not in request.files:
         return jsonify(result="Fail", message="No form named 'file' to get file from")
 
     f = request.files['file']
     f.save(os.path.join(UPLOAD_DIR, f.filename))
     return jsonify(result="Success")
+
+
+@app.route('/train')
+def train():
+    pass
 
 
 if __name__ == '__main__':
