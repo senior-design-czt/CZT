@@ -57,22 +57,24 @@ def dataFileToArray(labelindex, featuresindeces):
 
   global features, classLabels
   data = np.array(newdata)
-  features = data
-  features = np.delete(features, labelindex, 0)
+  features = [data[i] for i in featuresindeces]
+  features = np.array(features)
   classLabels = data[labelindex,:]
-
   features = features.transpose()
+  print(features)
   #classLabels = classLabels.transpose()
 
 def RunRegressionAnalysis(dfile, outputfile):
   global datafile
   datafile = dfile
-  dataFileToArray(0,[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26])
-  print("3 fold scores for linear regression\n", cvs(LR(fit_intercept = False), features, classLabels, cv = 3).tolist(),"\n __________________________________\n")
+  dataFileToArray(0,[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24])
+  #sys.stdout = open(outputfile, 'w')
+  print("3 fold scores for linear regression\n", cvs(LR(fit_intercept = False, normalize = True), features, classLabels, cv = 3).tolist(),"\n __________________________________\n")
   reg = LR(fit_intercept = True).fit(features, classLabels)
   for feature, coef in zip(impurities, reg.coef_):
     print(feature, coef)
     coefficients.append(coef)
+  sys.stdout = sys.__stdout__
   
 
 def binarizeLabels(threshold):
@@ -89,11 +91,13 @@ def GetImpurityCoefficientsForGraph():
   return impurities, coefficients
 
 def RunBinaryClassifier(dfile, outputfile, threshold):
-  dataFileToArray(0,[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26])
+  dataFileToArray(0,[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24])
   binarizeLabels(threshold)
+  sys.stdout = open(outputfile, 'w')
   print("\nSingleLayer Perceptron\n", cvs(PC(max_iter = 50, alpha = 0.01), features, classLabels, cv = 3).tolist(),"\n __________________________________\n")
+  sys.stdout = sys.__stdout__ 
 
 if __name__ == "__main__":
-  sys.stdout = open(sys.argv[2], 'w')
+  #sys.stdout = open(sys.argv[2], 'w')
   RunRegressionAnalysis(sys.argv[1], sys.argv[2])
-  RunBinaryClassifier(sys.argv[1], sys.argv[2], float(sys.argv[3]))
+  #RunBinaryClassifier(sys.argv[1], sys.argv[2], float(sys.argv[3]))
