@@ -67,6 +67,11 @@ def train():
     pass
 
 
+@app.route('/train')
+def train():
+    pass
+
+
 if __name__ == '__main__':
     if not os.path.isdir(UPLOAD_DIR):
         print('Doing directory setup for upload data')
