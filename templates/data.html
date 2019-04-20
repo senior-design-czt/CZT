@@ -17,41 +17,6 @@
 
     <!-- Start Mock Table -->
     <div class="container">
-        <!-- Start Label radio buttons -->
-        <h6 class="form-check-inline">Labels: </h6>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-            <label class="form-check-label" for="inlineRadio1">Feature 1</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-            <label class="form-check-label" for="inlineRadio2">Feature 2</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
-            <label class="form-check-label" for="inlineRadio3">Feature 3</label>
-        </div>
-        <!-- End Label radio buttons -->
-
-        <!-- Line Break -->
-        <br>
-        <!-- Line Break -->
-
-        <!-- Start Features checkboxes -->
-        <h6 class="form-check-inline">Features: </h6>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-            <label class="form-check-label" for="inlineCheckbox1">Feature 1</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-            <label class="form-check-label" for="inlineCheckbox2">Feature 2</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
-            <label class="form-check-label" for="inlineCheckbox3">Feature 3</label>
-        </div>
-        <!-- End Features checkboxes -->
 
         <table class="table table-hover table-bordered">
             <thead>
@@ -77,10 +42,63 @@
                 </tr>
                 <tr>
                 <th scope="row">3</th>
-                <td colspan="2">Larry the Bird</td>
+                <td>Larry</td>
+                <td>The Bird</td>
                 <td>@twitter</td>
                 </tr>
             </tbody>
+
+            <!-- Start Label Selection -->
+            <thead>
+                <tr>
+                    <th scope="col">Select a label:</th>
+                    <th scope="col">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+                            <label class="form-check-label" for="inlineRadio1">Feature 1</label>
+                        </div>
+                    </th>
+                    <th scope="col">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                            <label class="form-check-label" for="inlineRadio2">Feature 2</label>
+                        </div>
+                    </th>
+                    <th scope="col">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
+                            <label class="form-check-label" for="inlineRadio3">Feature 3</label>
+                        </div>
+                    </th>
+                </tr>
+            </thead>
+            <!-- End Label Selection -->
+
+            <!-- Start Feature Selection -->
+            <thead>
+                <tr>
+                    <th scope="col">Select features:</th>
+                    <th scope="col">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                            <label class="form-check-label" for="inlineCheckbox1">Feature 1</label>
+                        </div>
+                    </th>
+                    <th scope="col">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+                            <label class="form-check-label" for="inlineCheckbox2">Feature 2</label>
+                        </div>
+                    </th>
+                    <th scope="col">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
+                            <label class="form-check-label" for="inlineCheckbox3">Feature 3</label>
+                        </div>
+                    </th>
+                </tr>
+            </thead>
+            <!-- End Feature Selection -->
         </table>
     </div>
     <!-- End Mock Table -->
