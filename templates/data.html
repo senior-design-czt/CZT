@@ -6,104 +6,77 @@
         <div class="container">
             <h1 class="display-3">Data Sets</h1>
             <p>This page shows any existing data sets. Click any data set to view it's contents. To upload a new data set, click the import button to select a new data set from your local file system.</p>
-            <p><a id="importDataButton" class="btn btn-primary btn-lg" href="" role="button">Import new data set &raquo;</a></p>
-        
-            <form id="fileInputForm" action={{url_for('upload')}} method = "POST" enctype="multipart/form-data">
-                <input id="fileInput" name="file" type="file" style="display: none;"/>  
+            <form id="fileInputForm" method="POST" action="{{url_for('upload')}}" enctype="multipart/form-data">
+                <label class="btn btn-primary btn-lg">
+                    Import new data set &raquo;<input id="fileInput" name="file" type="file" style="display: none;"/>
+                </label>
             </form>
         </div>
     </div>
     <!-- End Page Header -->
 
-    <!-- Start Mock Table -->
+    {% if render_table == True %}
+    <!-- Start Table -->
     <div class="container">
-
         <table class="table table-hover table-bordered">
             <thead>
                 <tr>
-                    <th scope="col">Crystal Name</th>
-                    <th scope="col">Feature 1</th>
-                    <th scope="col">Feature 2</th>
-                    <th scope="col">Feature 3</th>
+                    <th scope="col">Crystal</th>
+                    {% for feature in header %}
+                        <th scope="col">{{ feature }}</th>
+                    {% endfor %}
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-                </tr>
-                <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-                </tr>
-                <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>The Bird</td>
-                <td>@twitter</td>
-                </tr>
+                {% for row in body %}
+                    <tr>
+                        <th scope="row">{{ loop.index }}</th>
+                        {% for col in row %}
+                            <td>{{ col }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
             </tbody>
 
             <!-- Start Label Selection -->
             <thead>
                 <tr>
-                    <th scope="col">Select a label:</th>
-                    <th scope="col">
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-                            <label class="form-check-label" for="inlineRadio1">Feature 1</label>
-                        </div>
-                    </th>
-                    <th scope="col">
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-                            <label class="form-check-label" for="inlineRadio2">Feature 2</label>
-                        </div>
-                    </th>
-                    <th scope="col">
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
-                            <label class="form-check-label" for="inlineRadio3">Feature 3</label>
-                        </div>
-                    </th>
+                    <th scope="col">Select a label</th>
+                    {% for feature in header %}
+                        <th scope="col">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id={{ "inlineRadio%d" % loop.index }} value={{ "option%d" % loop.index }}>
+                                <label class="form-check-label" for={{ "inlineRadio%d" % loop.index }}>{{ feature }}</label>
+                            </div>
+                        </th>
+                    {% endfor %}
                 </tr>
             </thead>
-            <!-- End Label Selection -->
+        <!-- End Label Selection -->
 
-            <!-- Start Feature Selection -->
+        <!-- Start Feature Selection -->
             <thead>
                 <tr>
                     <th scope="col">Select features:</th>
-                    <th scope="col">
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                            <label class="form-check-label" for="inlineCheckbox1">Feature 1</label>
-                        </div>
-                    </th>
-                    <th scope="col">
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-                            <label class="form-check-label" for="inlineCheckbox2">Feature 2</label>
-                        </div>
-                    </th>
-                    <th scope="col">
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
-                            <label class="form-check-label" for="inlineCheckbox3">Feature 3</label>
-                        </div>
-                    </th>
+                    {% for feature in header %}
+                        <th scope="col">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id={{ "inlineCheckbox%d" % loop.index }} value={{ "option%d" % loop.index }}>
+                                <label class="form-check-label" for={{ "inlineCheckbox%d" % loop.index }}>{{ feature }}</label>
+                            </div>
+                        </th>
+                    {% endfor %}
                 </tr>
             </thead>
-            <!-- End Feature Selection -->
         </table>
+        <!-- End Feature Selection -->
     </div>
-    <!-- End Mock Table -->
-    
+    {% endif %}
 </div>
 {% endblock %}
-
-{# TODO: ADD A TABLE TO VIEW THE CSV DATA #}
+{% block extra_scripts %}
+    <script>
+        document.getElementById("fileInput").onchange =
+            () => document.getElementById("fileInputForm").submit()
+    </script>
+{% endblock %}
