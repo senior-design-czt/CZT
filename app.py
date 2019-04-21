@@ -1,11 +1,14 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, redirect, url_for
 import os
 from pathlib import Path
+import csv
 
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_DIR = os.path.join(Path.home(), 'czt')
 app.config['TEMPLATES_AUTO_RELOAD'] = True
+
+datafile = os.path.join(UPLOAD_DIR, 'data.csv')
 
 
 @app.route('/home')
@@ -18,7 +21,14 @@ def home():
 @app.route('/data')
 def data():
     """Serves the data page for the website"""
-    return render_template('data.html')
+    if os.path.isfile(datafile):
+        with open(datafile, newline='') as f:
+            csvfile = list(csv.reader(f))
+            return render_template('data.html',
+                                   render_table=True,
+                                   header=csvfile[0],
+                                   body=csvfile[1:])
+    return render_template('data.html', render_table=False)
 
 
 @app.route('/status')
@@ -46,12 +56,20 @@ def upload():
     Requires a file input form named 'file' to read from.
     View https://www.tutorialspoint.com/flask/flask_file_uploading.htm for an example on how to use this.
     """
-    if not 'file' in request.files:
-        return jsonify(result="Fail", message="No form named 'file' to get file from")
+    if 'file' in request.files:
+        f = request.files['file']
+        f.save(datafile)
+    return redirect(url_for('data'))
 
-    f = request.files['file']
-    f.save(os.path.join(UPLOAD_DIR, f.filename))
-    return jsonify(result="Success")
+
+@app.route('/train')
+def train():
+    pass
+
+
+@app.route('/train')
+def train():
+    pass
 
 
 if __name__ == '__main__':
