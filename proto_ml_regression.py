@@ -102,12 +102,6 @@ def RunBinaryClassifier(dfile, outputfile, threshold):
   dataFileToArray()
   binarizeLabels(threshold)
   print("\nSingleLayer Perceptron\n", cvs(PC(max_iter = 50, alpha = 0.01), features, classLabels, cv = 3).tolist(),"\n __________________________________\n")
-  print("Multilayer Perceptron, relu\n", cvs(MLP(max_iter = 50, activation = 'relu', alpha = 0.01), features, classLabels, cv = 3).tolist(),"\n __________________________________\n")
-  print("Multilayer Perceptron, tanh\n", cvs(MLP(max_iter = 50, activation = 'tanh', alpha = 0.01), features, classLabels, cv = 3).tolist(),"\n __________________________________\n")
-  print("Multilayer Perceptron, identity\n", cvs(MLP(max_iter = 50, activation = 'identity', alpha = 0.01), features, classLabels, cv = 3).tolist(),"\n __________________________________\n")
-  print("Multilayer Perceptron, logistic\n", cvs(MLP(max_iter = 50, activation = 'logistic', alpha = 0.01), features, classLabels, cv = 3).tolist(),"\n __________________________________\n")
-  print("Logorithmic Regression\n", cvs(LGR(max_iter = 50), features, classLabels, cv = 3).tolist(),"\n __________________________________\n")
-
 
 if __name__ == "__main__":
   sys.stdout = open(sys.argv[2], 'w')
