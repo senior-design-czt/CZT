@@ -18,6 +18,7 @@ classLabels = []
 impurities = []
 coefficients = []
 datafile = ''
+outfile = ''
 
 warnings.simplefilter("ignore")
 
@@ -41,7 +42,7 @@ def findOptimalComponents():
 def avg(lst): 
     return sum(lst) / len(lst) 
 
-def dataFileToArray(labelindex, featuresindeces):
+def dataFileToArray():
   with open(datafile, 'r') as f:  
     data = list(list(rec) for rec in csv.reader(f, delimiter=';')) #reads csv into a list of lists
     for row in range(len(data)):
@@ -57,25 +58,34 @@ def dataFileToArray(labelindex, featuresindeces):
 
   global features, classLabels
   data = np.array(newdata)
-  features = [data[i] for i in featuresindeces]
-  features = np.array(features)
-  classLabels = data[labelindex,:]
+  features = data[1:,:]
+  classLabels = data[1,:]
+
   features = features.transpose()
-  print(features)
-  #classLabels = classLabels.transpose()
+  classLabels = classLabels.transpose()
+
+def LRToOutFile():
+  with open(outfile, 'w') as file:
+    file.write("3 fold scores for linear regression\n______________________________\n")
+    for score in cvs(LR(fit_intercept = False), features, classLabels, cv = 3).tolist():
+      file.write(" " + str(score))
+    file.write("\n\n _____Coefficients_____\n")
+    reg = LR(fit_intercept = True).fit(features, classLabels)
+    for feature, coef in zip(impurities, reg.coef_):
+      file.write(feature + ": " + str(coef) + "\n")
 
 def RunRegressionAnalysis(dfile, outputfile):
-  global datafile
+  global datafile, outfile, coefficients
   datafile = dfile
-  dataFileToArray(0,[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24])
-  #sys.stdout = open(outputfile, 'w')
-  print("3 fold scores for linear regression\n", cvs(LR(fit_intercept = False, normalize = True), features, classLabels, cv = 3).tolist(),"\n __________________________________\n")
+  outfile = outputfile
+  sys.stdout = open(outfile, 'a')
+  dataFileToArray()
+  print("3 fold scores for linear regression\n", cvs(LR(fit_intercept = False), features, classLabels, cv = 3).tolist(),"\n __________________________________\n")
   reg = LR(fit_intercept = True).fit(features, classLabels)
   for feature, coef in zip(impurities, reg.coef_):
     print(feature, coef)
     coefficients.append(coef)
   sys.stdout = sys.__stdout__
-  
 
 def binarizeLabels(threshold):
   global classLabels
@@ -88,16 +98,20 @@ def binarizeLabels(threshold):
   classLabels = newLabels
 
 def GetImpurityCoefficientsForGraph():
+  global impurities, coefficients
   return impurities, coefficients
 
 def RunBinaryClassifier(dfile, outputfile, threshold):
-  dataFileToArray(0,[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24])
+  global datafile, outfile
+  datafile = dfile
+  outfile = outputfile
+  sys.stdout = open(outfile, 'a')
+  dataFileToArray()
   binarizeLabels(threshold)
-  sys.stdout = open(outputfile, 'w')
   print("\nSingleLayer Perceptron\n", cvs(PC(max_iter = 50, alpha = 0.01), features, classLabels, cv = 3).tolist(),"\n __________________________________\n")
-  sys.stdout = sys.__stdout__ 
+  sys.stdout = sys.__stdout__
 
 if __name__ == "__main__":
-  #sys.stdout = open(sys.argv[2], 'w')
+  sys.stdout = open(sys.argv[2], 'w')
   RunRegressionAnalysis(sys.argv[1], sys.argv[2])
-  #RunBinaryClassifier(sys.argv[1], sys.argv[2], float(sys.argv[3]))
+  RunBinaryClassifier(sys.argv[1], sys.argv[2], float(sys.argv[3]))
