@@ -59,24 +59,26 @@ def upload():
 
 @app.route('/train')
 def train():
-    pass
+    os.system('python3 proto_ml_regression.py impurities.csv output.txt 1.5')
 
-@app.route('/compare')
+@app.route('/results')
 def compare():
     return render_template('compare.html')
 
-@app.route('/compare/graph')
+@app.route('/results/graph')
 def return_graph():
     # Grab results from regressor
+    ml.RunRegressionAnalysis('impurities.csv', 'output.txt')
     impurities, coefficients = ml.GetImpurityCoefficientsForGraph()
     # Generate graph as png
-    spacing = range(len(impurities))
-    plt.bar(spacing, coefficients, align='center', alpha=0.5)
-    plt.xticks(spacing, impurities)
+    spacing = np.arange(len(coefficients[1:]))
+    print(spacing, coefficients[1:])
+    plt.bar(spacing, coefficients[1:], align='center', alpha=0.5)
+    plt.xticks(spacing, impurities[1:])
     plt.xlabel('Impurity')
     plt.ylabel('Impact')
     plt.title('Effect of Impurities on Performance')
-    filename = os.path.join(UPLOAD_DIR, 'graph.png')
+    filename = 'graph.png'
     plt.savefig(filename)
     # Send file to client
 	try:
@@ -84,9 +86,9 @@ def return_graph():
 	except Exception as e:
 		return str(e)
 
-@app.route('/compare/text')
+@app.route('/results/text')
 def return_text():
-    filename = os.path.join(UPLOAD_DIR, 'output.txt')
+    filename = 'output.txt'
 	try:
 		return send_file(filename, attachment_filename='output.txt')
 	except Exception as e:
