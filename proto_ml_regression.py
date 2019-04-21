@@ -16,6 +16,7 @@ import pickle
 features = []
 classLabels = []
 impurities = []
+coefficients = []
 datafile = ''
 outfile = ''
 
@@ -74,7 +75,7 @@ def LRToOutFile():
       file.write(feature + ": " + str(coef) + "\n")
 
 def RunRegressionAnalysis(dfile, outputfile):
-  global datafile, outfile
+  global datafile, outfile, coefficients
   datafile = dfile
   outfile = outputfile
   sys.stdout = open(outfile, 'a')
@@ -83,6 +84,8 @@ def RunRegressionAnalysis(dfile, outputfile):
   reg = LR(fit_intercept = True).fit(features, classLabels)
   for feature, coef in zip(impurities, reg.coef_):
     print(feature, coef)
+    coefficients.append(coef)
+  sys.stdout = sys.__stdout__
 
 def binarizeLabels(threshold):
   global classLabels
@@ -94,6 +97,10 @@ def binarizeLabels(threshold):
       newLabels.append(0)
   classLabels = newLabels
 
+def GetImpurityCoefficientsForGraph():
+  global impurities, coefficients
+  return impurities, coefficients
+
 def RunBinaryClassifier(dfile, outputfile, threshold):
   global datafile, outfile
   datafile = dfile
@@ -102,6 +109,7 @@ def RunBinaryClassifier(dfile, outputfile, threshold):
   dataFileToArray()
   binarizeLabels(threshold)
   print("\nSingleLayer Perceptron\n", cvs(PC(max_iter = 50, alpha = 0.01), features, classLabels, cv = 3).tolist(),"\n __________________________________\n")
+  sys.stdout = sys.__stdout__
 
 if __name__ == "__main__":
   sys.stdout = open(sys.argv[2], 'w')
