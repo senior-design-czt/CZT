@@ -1,6 +1,9 @@
 from flask import Flask, request, jsonify, render_template
 import os
 from pathlib import Path
+import matplotlib.pyplot as plt
+import proto_ml_regression as ml
+import numpy as np
 
 
 app = Flask(__name__)
@@ -57,6 +60,37 @@ def upload():
 @app.route('/train')
 def train():
     pass
+
+@app.route('/compare')
+def compare():
+    return render_template('compare.html')
+
+@app.route('/compare/graph')
+def return_graph():
+    # Grab results from regressor
+    impurities, coefficients = ml.GetImpurityCoefficientsForGraph()
+    # Generate graph as png
+    spacing = range(len(impurities))
+    plt.bar(spacing, coefficients, align='center', alpha=0.5)
+    plt.xticks(spacing, impurities)
+    plt.xlabel('Impurity')
+    plt.ylabel('Impact')
+    plt.title('Effect of Impurities on Performance')
+    filename = os.path.join(UPLOAD_DIR, 'graph.png')
+    plt.savefig(filename)
+    # Send file to client
+	try:
+		return send_file(filename, attachment_filename='graph.png')
+	except Exception as e:
+		return str(e)
+
+@app.route('/compare/text')
+def return_text():
+    filename = os.path.join(UPLOAD_DIR, 'output.txt')
+	try:
+		return send_file(filename, attachment_filename='output.txt')
+	except Exception as e:
+		return str(e)
 
 
 if __name__ == '__main__':
