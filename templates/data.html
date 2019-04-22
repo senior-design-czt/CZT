@@ -5,7 +5,7 @@
     <div class="jumbotron">
         <div class="container">
             <h1 class="display-3">Data Sets</h1>
-            <p>This page shows any existing data sets. Click any data set to view it's contents. To upload a new data set, click the import button to select a new data set from your local file system.</p>
+            <p>This page shows any existing data sets. To train a data set, select a label and features, then click 'Train selected'. To upload a new data set, click the import button to select a new data set from your local file system.</p>
             <form id="fileInputForm" method="POST" action="{{url_for('upload')}}" enctype="multipart/form-data">
                 <label class="btn btn-primary btn-lg">
                     Import new data set &raquo;<input id="fileInput" name="file" type="file" style="display: none;"/>
