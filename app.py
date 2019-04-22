@@ -44,7 +44,8 @@ def status():
 @app.route('/results')
 def results():
     """Serves the results page for the website"""
-    return render_template('results.html')
+    with open('output.txt', 'r') as f:
+        return render_template('results.html', text=f.read())
 
 
 @app.route('/layout')
@@ -68,15 +69,14 @@ def upload():
 
 @app.route('/train')
 def train():
-    os.system('python3 proto_ml_regression.py impurities.csv output.txt 1.5')
+    os.system('python3 proto_ml_regression.py impurities2.csv output.txt 1.5')
     return redirect(url_for('results'))
-
 
 
 @app.route('/results/graph')
 def return_graph():
     # Grab results from regressor
-    ml.RunRegressionAnalysis('impurities.csv', 'output.txt')
+    ml.RunRegressionAnalysis('impurities2.csv', 'output.txt')
     impurities, coefficients = ml.GetImpurityCoefficientsForGraph()
     # Generate graph as png
     spacing = np.arange(len(coefficients[1:]))
@@ -98,10 +98,8 @@ def return_graph():
 @app.route('/results/text')
 def return_text():
     filename = 'output.txt'
-    try:
-        return send_file(filename, attachment_filename='output.txt')
-    except Exception as e:
-        return str(e)
+    with open(filename, 'r') as f:
+        return f.read()
 
 
 if __name__ == '__main__':

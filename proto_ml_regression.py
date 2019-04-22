@@ -46,10 +46,6 @@ def dataFileToArray():
   features = data[:, 1:]
 
 
-def dataFileToArray():
-  data = np.loadtxt(datafile, delimiter=',')
-  
-
 def LRToOutFile():
   with open(outfile, 'w') as file:
     file.write("3 fold scores for linear regression\n______________________________\n")
