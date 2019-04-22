@@ -57,7 +57,13 @@
         <!-- Start Feature Selection -->
             <thead>
                 <tr>
-                    <th scope="col">Select features:</th>
+                    <th scope="col">Select features: 
+                        <div class="checkbox">
+                            <label class="th">
+                              <input type="checkbox" class="form-check form-check-inline" id="selectAllFeatures"> Select all
+                            </label>
+                          </div>
+                    </th>
                     {% for feature in header %}
                         <th scope="col">
                             <div class="form-check form-check-inline">
@@ -107,5 +113,13 @@
             checkbox.prop('disabled', true);
             checkbox.prop('checked', false);
         }
+
+        $("#selectAllFeatures").change(function () {
+            $(".feature-select").each(function (index, elem) {
+                if ($(this).prop('disabled') == false) {
+                    $(this).prop('checked', true); 
+                }
+            });
+        });
     </script>
 {% endblock %}
