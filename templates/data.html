@@ -72,10 +72,8 @@
         <!-- End Feature Selection -->
 
         <!-- Start Train section-->
-        <form id="trainInputForm" method="POST" action="{{url_for('train')}}" enctype="multipart/form-data">
-            <label class="btn btn-primary btn-lg">
-                Train selected
-            </label>
+        <form id="trainInputForm" action="{{url_for('train')}}">
+            <input class="btn btn-primary btn-lg" type="submit" value="Train selected">
         </form>
         <!-- End Train section-->
 

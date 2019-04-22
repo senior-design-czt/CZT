@@ -69,6 +69,7 @@ def upload():
 @app.route('/train')
 def train():
     os.system('python3 proto_ml_regression.py impurities.csv output.txt 1.5')
+    return redirect(url_for('results'))
 
 
 @app.route('/results/graph')
