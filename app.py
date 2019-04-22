@@ -90,18 +90,18 @@ def return_graph():
     filename = 'graph.png'
     plt.savefig(filename)
     # Send file to client
-	try:
-		return send_file(filename, attachment_filename='graph.png')
-	except Exception as e:
-		return str(e)
+    try:
+        return send_file(filename, attachment_filename='graph.png')
+    except Exception as e:
+        return str(e)
 
 @app.route('/results/text')
 def return_text():
     filename = 'output.txt'
-	try:
-		return send_file(filename, attachment_filename='output.txt')
-	except Exception as e:
-		return str(e)
+    try:
+        return send_file(filename, attachment_filename='output.txt')
+    except Exception as e:
+        return str(e)
 
 
 if __name__ == '__main__':
