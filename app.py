@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template, redirect, url_for
+from flask import Flask, request, jsonify, render_template, redirect, url_for, send_file
 import os
 from pathlib import Path
 import matplotlib.pyplot as plt
@@ -69,6 +69,7 @@ def upload():
 @app.route('/train')
 def train():
     os.system('python3 proto_ml_regression.py impurities.csv output.txt 1.5')
+    return redirect(url_for('results'))
 
 @app.route('/results')
 def compare():
