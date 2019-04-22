@@ -41,11 +41,11 @@
             <!-- Start Label Selection -->
             <thead>
                 <tr>
-                    <th scope="col">Select a label</th>
+                    <th scope="col">Select a label:</th>
                     {% for feature in header %}
                         <th scope="col">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id={{ "inlineRadio%d" % loop.index }} value={{ "option%d" % loop.index }}>
+                                <input class="form-check-input label-select" type="radio" name="inlineRadioOptions" id={{ "inlineRadio%d" % loop.index }} value={{ "option%d" % loop.index }}>
                                 <label class="form-check-label" for={{ "inlineRadio%d" % loop.index }}>{{ feature }}</label>
                             </div>
                         </th>
@@ -61,7 +61,7 @@
                     {% for feature in header %}
                         <th scope="col">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id={{ "inlineCheckbox%d" % loop.index }} value={{ "option%d" % loop.index }}>
+                                <input class="form-check-input feature-select" type="checkbox" id={{ "inlineCheckbox%d" % loop.index }} value={{ "option%d" % loop.index }}>
                                 <label class="form-check-label" for={{ "inlineCheckbox%d" % loop.index }}>{{ feature }}</label>
                             </div>
                         </th>
@@ -78,5 +78,26 @@
     <script>
         document.getElementById("fileInput").onchange =
             () => document.getElementById("fileInputForm").submit()
+
+        // Add event listener to each label radio button that 
+        // disables the feature button of the same name.
+        $(".label-select").change(function () {
+            var id = $(this).attr('id');
+            var num = id.replace( /^\D+/g, ''); // replace all leading non-digits with nothing
+
+            enableAllFeatureCheckboxes(id, num);
+            disableAndUncheckFeature($("#inlineCheckbox" + num));
+        });
+
+        var enableAllFeatureCheckboxes = function (id, num) {
+            $(".feature-select").each(function (index, elem) {
+                $(this).prop('disabled', false);
+            });
+        }
+
+        var disableAndUncheckFeature = function (checkbox) {
+            checkbox.prop('disabled', true);
+            checkbox.prop('checked', false);
+        }
     </script>
 {% endblock %}
