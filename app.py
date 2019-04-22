@@ -41,10 +41,10 @@ def status():
     return render_template('status.html')
 
 
-@app.route('/compare')
-def compare():
-    """Serves the compare page for the website"""
-    return render_template('compare.html')
+@app.route('/results')
+def results():
+    """Serves the results page for the website"""
+    return render_template('results.html')
 
 
 @app.route('/layout')
@@ -90,18 +90,18 @@ def return_graph():
     filename = 'graph.png'
     plt.savefig(filename)
     # Send file to client
-	try:
-		return send_file(filename, attachment_filename='graph.png')
-	except Exception as e:
-		return str(e)
+    try:
+        return send_file(filename, attachment_filename='graph.png')
+    except Exception as e:
+        return str(e)
 
 @app.route('/results/text')
 def return_text():
     filename = 'output.txt'
-	try:
-		return send_file(filename, attachment_filename='output.txt')
-	except Exception as e:
-		return str(e)
+    try:
+        return send_file(filename, attachment_filename='output.txt')
+    except Exception as e:
+        return str(e)
 
 
 if __name__ == '__main__':
