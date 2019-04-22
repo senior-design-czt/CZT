@@ -1,2 +1,4 @@
 flask
 sklearn
+matplotlib
+numpy

@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template, redirect, url_for
+from flask import Flask, request, jsonify, render_template, redirect, url_for, send_file
 import os
 from pathlib import Path
 import matplotlib.pyplot as plt
@@ -72,6 +72,7 @@ def train():
     return redirect(url_for('results'))
 
 
+
 @app.route('/results/graph')
 def return_graph():
     # Grab results from regressor
@@ -92,6 +93,7 @@ def return_graph():
         return send_file(filename, mimetype='image/png')
     except Exception as e:
         return str(e)
+
 
 @app.route('/results/text')
 def return_text():

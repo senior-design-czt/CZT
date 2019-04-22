@@ -3,15 +3,9 @@ import sys
 import warnings
 from sklearn.decomposition import PCA
 from sklearn.linear_model import LinearRegression as LR
-from sklearn.neural_network import MLPClassifier as MLP
 from sklearn.linear_model import Perceptron as PC
-from sklearn.linear_model import LogisticRegression as LGR
 from sklearn.model_selection import cross_val_score as cvs
-from sklearn.model_selection import LeaveOneOut
-from sklearn.model_selection import train_test_split
 import numpy as np
-import math
-import pickle
 
 features = []
 classLabels = []
@@ -42,27 +36,15 @@ def findOptimalComponents():
 def avg(lst): 
     return sum(lst) / len(lst) 
 
+
 def dataFileToArray():
-  with open(datafile, 'r') as f:  
-    data = list(list(rec) for rec in csv.reader(f, delimiter=';')) #reads csv into a list of lists
-    for row in range(len(data)):
-      for item in range(len(data[row])):
-        if data[row][item] == '':
-          data[row][item] = '0'
-  data = [i for i in data[1:]]
-  newdata = []
-  global impurities
-  for row in data:
-    newdata.append([float(j) for j in row[1:]])
-    impurities.append(row[0])
+  global impurities, features, classLabels
+  with open(datafile, 'r') as f:
+    impurities = f.readline().split(',')
+  data = np.loadtxt(datafile, delimiter=',', skiprows=1)
+  classLabels = data[:, 0]
+  features = data[:, 1:]
 
-  global features, classLabels
-  data = np.array(newdata)
-  features = data[1:,:]
-  classLabels = data[1,:]
-
-  features = features.transpose()
-  classLabels = classLabels.transpose()
 
 def dataFileToArray():
   data = np.loadtxt(datafile, delimiter=',')
