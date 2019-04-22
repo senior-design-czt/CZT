@@ -72,10 +72,6 @@ def train():
     return redirect(url_for('results'))
 
 
-@app.route('/results')
-def compare():
-    return render_template('compare.html')
-
 
 @app.route('/results/graph')
 def return_graph():
@@ -94,7 +90,7 @@ def return_graph():
     plt.savefig(filename)
     # Send file to client
     try:
-        return send_file(filename, attachment_filename='graph.png')
+        return send_file(filename, mimetype='image/png')
     except Exception as e:
         return str(e)
 

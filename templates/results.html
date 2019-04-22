@@ -1,8 +1,28 @@
 {% extends "base.html" %}
 {% block main %}
 <div id="resultsPage">
-    <h2>Results</h2>
-    <p>This is the results page.</p>
-    <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
+    <!-- Start Page Header -->
+    <div class="jumbotron">
+        <div class="container">
+            <h1 class="display-3">Results</h1>
+            <p>This page shows output results from training a specific data set. Click the Train button to train a new data set.</p>
+            <form id="trainInputForm" action="{{url_for('data')}}">
+                <input class="btn btn-primary btn-lg" type="submit" value="Train &raquo;">
+            </form>
+        </div>
+    </div>
+    <!-- End Page Header -->
+
+    <!-- Start Page Contents -->
+    <div class="container">
+        <h3 class="display-5">Text Output</h3>
+        <div id="resultsTextOutput"></div>
+    </div>
+    <div class="container">
+        <h3 class="display-5">Graph</h3>
+        <img src="{{ url_for('return_graph') }}"/>
+    </div>
+    
+    <!-- End Page Contents -->
 </div>
 {% endblock %}
