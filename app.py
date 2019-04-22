@@ -45,7 +45,8 @@ def status():
 def results():
     """Serves the results page for the website"""
     with open('output.txt', 'r') as f:
-        return render_template('results.html', text=f.read())
+        text = f.readlines()
+        return render_template('results.html', text=text)
 
 
 @app.route('/layout')
@@ -98,8 +99,9 @@ def return_graph():
 @app.route('/results/text')
 def return_text():
     filename = 'output.txt'
-    with open(filename, 'r') as f:
-        return f.read()
+    return send_file(filename, mimetype='text')
+    #with open(filename, 'r') as f:
+        #return f.read()
 
 
 if __name__ == '__main__':
