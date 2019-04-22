@@ -37,10 +37,10 @@ def status():
     return render_template('status.html')
 
 
-@app.route('/compare')
-def compare():
-    """Serves the compare page for the website"""
-    return render_template('compare.html')
+@app.route('/results')
+def results():
+    """Serves the results page for the website"""
+    return render_template('results.html')
 
 
 @app.route('/layout')
