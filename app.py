@@ -70,9 +70,6 @@ def upload():
 def train():
     os.system('python3 proto_ml_regression.py impurities.csv output.txt 1.5')
 
-@app.route('/results')
-def results():
-    return render_template('results.html')
 
 @app.route('/results/graph')
 def return_graph():
