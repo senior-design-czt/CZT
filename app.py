@@ -71,9 +71,11 @@ def train():
     os.system('python3 proto_ml_regression.py impurities.csv output.txt 1.5')
     return redirect(url_for('results'))
 
+
 @app.route('/results')
 def compare():
     return render_template('compare.html')
+
 
 @app.route('/results/graph')
 def return_graph():
@@ -95,6 +97,7 @@ def return_graph():
         return send_file(filename, attachment_filename='graph.png')
     except Exception as e:
         return str(e)
+
 
 @app.route('/results/text')
 def return_text():
