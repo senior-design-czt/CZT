@@ -114,12 +114,21 @@
             checkbox.prop('checked', false);
         }
 
-        $("#selectAllFeatures").change(function () {
-            $(".feature-select").each(function (index, elem) {
-                if ($(this).prop('disabled') == false) {
-                    $(this).prop('checked', true); 
-                }
-            });
+        $("#selectAllFeatures").click(function () {
+            if ($(this).prop('checked') == true) {
+                $(".feature-select").each(function (index, elem) {
+                    if ($(this).prop('disabled') == false) {
+                        $(this).prop('checked', true); 
+                    }
+                });
+            }
+
+            else {
+                $(".feature-select").each(function (index, elem) {
+                    $(this).prop('checked', false); 
+                })
+            }
+            
         });
     </script>
 {% endblock %}
