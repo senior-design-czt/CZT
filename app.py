@@ -71,8 +71,8 @@ def train():
     os.system('python3 proto_ml_regression.py impurities.csv output.txt 1.5')
 
 @app.route('/results')
-def compare():
-    return render_template('compare.html')
+def results():
+    return render_template('results.html')
 
 @app.route('/results/graph')
 def return_graph():
